@@ -18,6 +18,9 @@ import org.openmetadata.service.jdbi3.CollectionDAO;
 import org.openmetadata.service.jdbi3.CollectionDAO.*;
 import org.openmetadata.service.jdbi3.DeletionLockDAO;
 import org.openmetadata.service.jdbi3.IndexMappingVersionDAO;
+import org.openmetadata.service.jdbi3.McpPromptDAO;
+import org.openmetadata.service.jdbi3.McpResourceDAO;
+import org.openmetadata.service.jdbi3.McpToolDAO;
 
 /**
  * Decorator for CollectionDAO that provides caching capabilities.
@@ -477,5 +480,25 @@ public class CachedCollectionDAO implements CollectionDAO {
   @Override
   public IndexMappingVersionDAO indexMappingVersionDAO() {
     return delegate.indexMappingVersionDAO();
+  }
+
+  @Override
+  public McpServiceDAO mcpServiceDAO() {
+    return delegate.mcpServiceDAO();
+  }
+
+  @Override
+  public McpToolDAO mcpToolDAO() {
+    return delegate.mcpToolDAO();
+  }
+
+  @Override
+  public McpResourceDAO mcpResourceDAO() {
+    return delegate.mcpResourceDAO();
+  }
+
+  @Override
+  public McpPromptDAO mcpPromptDAO() {
+    return delegate.mcpPromptDAO();
   }
 }

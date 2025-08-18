@@ -121,6 +121,7 @@ import org.openmetadata.schema.entity.services.ApiService;
 import org.openmetadata.schema.entity.services.DashboardService;
 import org.openmetadata.schema.entity.services.DatabaseService;
 import org.openmetadata.schema.entity.services.DriveService;
+import org.openmetadata.schema.entity.services.McpService;
 import org.openmetadata.schema.entity.services.MessagingService;
 import org.openmetadata.schema.entity.services.MetadataService;
 import org.openmetadata.schema.entity.services.MlModelService;
@@ -332,6 +333,18 @@ public interface CollectionDAO {
 
   @CreateSqlObject
   ApiServiceDAO apiServiceDAO();
+
+  @CreateSqlObject
+  McpServiceDAO mcpServiceDAO();
+
+  @CreateSqlObject
+  McpToolDAO mcpToolDAO();
+
+  @CreateSqlObject
+  McpResourceDAO mcpResourceDAO();
+
+  @CreateSqlObject
+  McpPromptDAO mcpPromptDAO();
 
   @CreateSqlObject
   DriveServiceDAO driveServiceDAO();
@@ -762,6 +775,23 @@ public interface CollectionDAO {
     @Override
     default Class<ApiService> getEntityClass() {
       return ApiService.class;
+    }
+
+    @Override
+    default String getNameHashColumn() {
+      return "nameHash";
+    }
+  }
+
+  interface McpServiceDAO extends EntityDAO<McpService> {
+    @Override
+    default String getTableName() {
+      return "mcp_service_entity";
+    }
+
+    @Override
+    default Class<McpService> getEntityClass() {
+      return McpService.class;
     }
 
     @Override

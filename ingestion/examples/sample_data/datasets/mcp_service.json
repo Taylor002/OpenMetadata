@@ -1,0 +1,321 @@
+{
+  "services": [
+    {
+      "name": "everything-mcp-server",
+      "displayName": "Everything MCP Server",
+      "description": "A comprehensive MCP server providing file operations, web browsing, and various utility tools for AI assistants",
+      "serviceType": "Mcp",
+      "connection": {
+        "config": {
+          "type": "Mcp",
+          "config": {
+            "command": "npx",
+            "args": ["-y", "@modelcontextprotocol/server-everything"],
+            "env": {
+              "NODE_ENV": "production"
+            }
+          }
+        }
+      },
+      "serverInstructions": "This server provides comprehensive tools for file operations, web searching, and general utilities. Use file operations carefully and always validate paths. Web search results should be verified for accuracy.",
+      "availableTools": [
+        {
+          "name": "read_file",
+          "description": "Read the contents of a file at the specified path",
+          "category": "file_operations",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"The file path to read\"}}, \"required\": [\"path\"]}"
+        },
+        {
+          "name": "write_file",
+          "description": "Write content to a file at the specified path",
+          "category": "file_operations",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"The file path to write to\"}, \"content\": {\"type\": \"string\", \"description\": \"The content to write\"}}, \"required\": [\"path\", \"content\"]}"
+        },
+        {
+          "name": "list_directory",
+          "description": "List all files and directories at the specified path",
+          "category": "file_operations",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"path\": {\"type\": \"string\", \"description\": \"The directory path to list\"}}, \"required\": [\"path\"]}"
+        },
+        {
+          "name": "search_web",
+          "description": "Search the web for information",
+          "category": "web_operations",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"The search query\"}}, \"required\": [\"query\"]}"
+        },
+        {
+          "name": "fetch_url",
+          "description": "Fetch the content of a URL",
+          "category": "web_operations",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"url\": {\"type\": \"string\", \"description\": \"The URL to fetch\"}}, \"required\": [\"url\"]}"
+        },
+        {
+          "name": "execute_command",
+          "description": "Execute a shell command",
+          "category": "system_operations",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\", \"description\": \"The command to execute\"}}, \"required\": [\"command\"]}"
+        }
+      ],
+      "availableResources": [
+        {
+          "uri": "file:///workspace",
+          "name": "Workspace Directory",
+          "description": "The main workspace directory for file operations",
+          "mimeType": "application/x-directory"
+        },
+        {
+          "uri": "file:///tmp",
+          "name": "Temporary Directory",
+          "description": "Temporary directory for scratch files",
+          "mimeType": "application/x-directory"
+        }
+      ],
+      "availablePrompts": [
+        {
+          "name": "analyze_code",
+          "description": "Analyze code for improvements, bugs, and best practices",
+          "arguments": [
+            {
+              "name": "code",
+              "type": "string",
+              "description": "The code to analyze",
+              "required": true
+            },
+            {
+              "name": "language",
+              "type": "string",
+              "description": "The programming language",
+              "required": true
+            },
+            {
+              "name": "focus",
+              "type": "string",
+              "description": "Specific aspect to focus on (performance, security, readability)",
+              "required": false
+            }
+          ]
+        },
+        {
+          "name": "generate_documentation",
+          "description": "Generate documentation from code or specifications",
+          "arguments": [
+            {
+              "name": "input",
+              "type": "string",
+              "description": "The code or specification to document",
+              "required": true
+            },
+            {
+              "name": "format",
+              "type": "string",
+              "description": "Documentation format (markdown, html, rst)",
+              "required": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "github-mcp-server",
+      "displayName": "GitHub MCP Server",
+      "description": "MCP server for GitHub operations including repository management, issues, and pull requests",
+      "serviceType": "Mcp",
+      "connection": {
+        "config": {
+          "type": "Mcp",
+          "config": {
+            "command": "node",
+            "args": ["/opt/mcp-servers/github-server.js"],
+            "env": {
+              "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+            }
+          }
+        }
+      },
+      "serverInstructions": "This server provides GitHub API access. Ensure GITHUB_TOKEN is set with appropriate permissions. Rate limits apply based on GitHub API restrictions.",
+      "availableTools": [
+        {
+          "name": "list_repositories",
+          "description": "List repositories for a user or organization",
+          "category": "repository_management",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"owner\": {\"type\": \"string\", \"description\": \"Repository owner (user or org)\"}, \"type\": {\"type\": \"string\", \"enum\": [\"all\", \"public\", \"private\"], \"default\": \"all\"}}, \"required\": [\"owner\"]}"
+        },
+        {
+          "name": "get_repository",
+          "description": "Get detailed information about a repository",
+          "category": "repository_management",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"owner\": {\"type\": \"string\"}, \"repo\": {\"type\": \"string\"}}, \"required\": [\"owner\", \"repo\"]}"
+        },
+        {
+          "name": "create_issue",
+          "description": "Create a new issue in a repository",
+          "category": "issue_management",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"owner\": {\"type\": \"string\"}, \"repo\": {\"type\": \"string\"}, \"title\": {\"type\": \"string\"}, \"body\": {\"type\": \"string\"}, \"labels\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}}}, \"required\": [\"owner\", \"repo\", \"title\"]}"
+        },
+        {
+          "name": "list_pull_requests",
+          "description": "List pull requests for a repository",
+          "category": "pr_management",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"owner\": {\"type\": \"string\"}, \"repo\": {\"type\": \"string\"}, \"state\": {\"type\": \"string\", \"enum\": [\"open\", \"closed\", \"all\"], \"default\": \"open\"}}, \"required\": [\"owner\", \"repo\"]}"
+        },
+        {
+          "name": "get_pull_request",
+          "description": "Get details of a specific pull request",
+          "category": "pr_management",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"owner\": {\"type\": \"string\"}, \"repo\": {\"type\": \"string\"}, \"pull_number\": {\"type\": \"number\"}}, \"required\": [\"owner\", \"repo\", \"pull_number\"]}"
+        }
+      ],
+      "availableResources": [
+        {
+          "uri": "github://api.github.com",
+          "name": "GitHub API",
+          "description": "GitHub REST API endpoint",
+          "mimeType": "application/json"
+        },
+        {
+          "uri": "github://gist.github.com",
+          "name": "GitHub Gists",
+          "description": "GitHub Gists service",
+          "mimeType": "application/json"
+        }
+      ],
+      "availablePrompts": [
+        {
+          "name": "pr_review",
+          "description": "Review a pull request and provide feedback",
+          "arguments": [
+            {
+              "name": "pr_url",
+              "type": "string",
+              "description": "Pull request URL",
+              "required": true
+            },
+            {
+              "name": "focus_areas",
+              "type": "array",
+              "description": "Areas to focus on (code quality, testing, documentation)",
+              "required": false
+            }
+          ]
+        },
+        {
+          "name": "issue_triage",
+          "description": "Help triage and categorize issues",
+          "arguments": [
+            {
+              "name": "repository",
+              "type": "string",
+              "description": "Repository name (owner/repo)",
+              "required": true
+            },
+            {
+              "name": "issue_number",
+              "type": "number",
+              "description": "Issue number",
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "database-mcp-server",
+      "displayName": "Database MCP Server",
+      "description": "MCP server for database operations including query execution and schema management",
+      "serviceType": "Mcp",
+      "connection": {
+        "config": {
+          "type": "Mcp",
+          "config": {
+            "command": "python",
+            "args": ["-m", "mcp_servers.database"],
+            "env": {
+              "DATABASE_URL": "${DATABASE_URL}",
+              "DB_READ_ONLY": "false"
+            },
+            "cwd": "/opt/mcp-servers"
+          }
+        }
+      },
+      "serverInstructions": "This server provides database access. Use with caution in production environments. Always validate queries before execution. The DB_READ_ONLY flag controls write permissions.",
+      "availableTools": [
+        {
+          "name": "execute_query",
+          "description": "Execute a SQL query on the database",
+          "category": "query_operations",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"SQL query to execute\"}, \"parameters\": {\"type\": \"array\", \"items\": {\"type\": \"any\"}, \"description\": \"Query parameters for parameterized queries\"}}, \"required\": [\"query\"]}"
+        },
+        {
+          "name": "list_tables",
+          "description": "List all tables in the database",
+          "category": "schema_operations",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"schema\": {\"type\": \"string\", \"description\": \"Database schema name\", \"default\": \"public\"}}}"
+        },
+        {
+          "name": "describe_table",
+          "description": "Get the schema of a specific table",
+          "category": "schema_operations",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"table_name\": {\"type\": \"string\", \"description\": \"Name of the table\"}, \"schema\": {\"type\": \"string\", \"description\": \"Database schema name\", \"default\": \"public\"}}, \"required\": [\"table_name\"]}"
+        },
+        {
+          "name": "analyze_query",
+          "description": "Analyze a query execution plan",
+          "category": "query_operations",
+          "inputSchema": "{\"type\": \"object\", \"properties\": {\"query\": {\"type\": \"string\", \"description\": \"SQL query to analyze\"}}, \"required\": [\"query\"]}"
+        }
+      ],
+      "availableResources": [
+        {
+          "uri": "db://localhost:5432/main",
+          "name": "Main Database",
+          "description": "Primary database connection",
+          "mimeType": "application/x-postgresql"
+        },
+        {
+          "uri": "db://localhost:5432/analytics",
+          "name": "Analytics Database",
+          "description": "Analytics read replica",
+          "mimeType": "application/x-postgresql"
+        }
+      ],
+      "availablePrompts": [
+        {
+          "name": "generate_query",
+          "description": "Generate SQL query from natural language description",
+          "arguments": [
+            {
+              "name": "description",
+              "type": "string",
+              "description": "Natural language description of the query",
+              "required": true
+            },
+            {
+              "name": "tables",
+              "type": "array",
+              "description": "List of tables that might be used",
+              "required": false
+            }
+          ]
+        },
+        {
+          "name": "optimize_query",
+          "description": "Optimize a SQL query for better performance",
+          "arguments": [
+            {
+              "name": "query",
+              "type": "string",
+              "description": "SQL query to optimize",
+              "required": true
+            },
+            {
+              "name": "execution_plan",
+              "type": "string",
+              "description": "Current execution plan",
+              "required": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

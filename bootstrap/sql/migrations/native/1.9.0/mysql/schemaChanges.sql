@@ -203,3 +203,4 @@ ALTER TABLE successful_sent_change_events ADD INDEX idx_successful_events_timest
 
 -- Add composite index for better performance when filtering by subscription ID and ordering by timestamp
 ALTER TABLE successful_sent_change_events ADD INDEX idx_successful_events_subscription_timestamp (event_subscription_id, timestamp DESC);
+

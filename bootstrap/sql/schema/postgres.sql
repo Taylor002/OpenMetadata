@@ -471,6 +471,24 @@ CREATE TABLE public.messaging_service_entity (
 ALTER TABLE public.messaging_service_entity OWNER TO openmetadata_user;
 
 --
+-- Name: mcp_service_entity; Type: TABLE; Schema: public; Owner: openmetadata_user
+--
+
+CREATE TABLE public.mcp_service_entity (
+    id character varying(36) GENERATED ALWAYS AS ((json ->> 'id'::text)) STORED NOT NULL,
+    name character varying(256) GENERATED ALWAYS AS ((json ->> 'name'::text)) STORED NOT NULL,
+    servicetype character varying(256) GENERATED ALWAYS AS ((json ->> 'serviceType'::text)) STORED NOT NULL,
+    json jsonb NOT NULL,
+    updatedat bigint GENERATED ALWAYS AS (((json ->> 'updatedAt'::text))::bigint) STORED NOT NULL,
+    updatedby character varying(256) GENERATED ALWAYS AS ((json ->> 'updatedBy'::text)) STORED NOT NULL,
+    deleted boolean GENERATED ALWAYS AS (((json ->> 'deleted'::text))::boolean) STORED,
+    namehash character varying(256) NOT NULL
+);
+
+
+ALTER TABLE public.mcp_service_entity OWNER TO openmetadata_user;
+
+--
 -- Name: metadata_service_entity; Type: TABLE; Schema: public; Owner: openmetadata_user
 --
 

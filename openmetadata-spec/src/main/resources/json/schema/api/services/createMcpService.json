@@ -13,7 +13,7 @@
     },
     "displayName": {
       "description": "Display Name that identifies this MCP service.",
-      "$ref": "../../type/basic.json#/definitions/displayName"
+      "type": "string"
     },
     "description": {
       "description": "Description of MCP service instance.",
@@ -21,34 +21,11 @@
     },
     "serviceType": {
       "description": "Type of MCP service",
-      "$ref": "../../entity/services/mcpService.json#/definitions/mcpServiceType"
+      "$ref": "../../entity/services/serviceType.json",
+      "default": "Mcp"
     },
     "connection": {
       "$ref": "../../entity/services/mcpService.json#/definitions/mcpConnection"
-    },
-    "availableTools": {
-      "description": "List of tools exposed by this MCP service",
-      "type": "array",
-      "items": {
-        "$ref": "../../entity/services/mcpService.json#/definitions/mcpTool"
-      },
-      "default": null
-    },
-    "availableResources": {
-      "description": "List of resources exposed by this MCP service",
-      "type": "array",
-      "items": {
-        "$ref": "../../entity/services/mcpService.json#/definitions/mcpResource"
-      },
-      "default": null
-    },
-    "availablePrompts": {
-      "description": "List of prompt templates exposed by this MCP service",
-      "type": "array",
-      "items": {
-        "$ref": "../../entity/services/mcpService.json#/definitions/mcpPrompt"
-      },
-      "default": null
     },
     "serverInstructions": {
       "description": "Instructions or guidelines for using this MCP server",
@@ -67,9 +44,12 @@
       "$ref": "../../type/entityReferenceList.json",
       "default": null
     },
-    "domain" : {
-      "description": "Fully qualified name of the domain the MCP Service belongs to.",
-      "type": "string"
+    "domains" : {
+      "description": "List of fully qualified names of domains the MCP Service belongs to.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     },
     "dataProducts" : {
       "description": "List of fully qualified names of data products this entity is part of.",

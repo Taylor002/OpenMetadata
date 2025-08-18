@@ -322,6 +322,12 @@ export const getDeleteEntityMessage = (
         service || t('label.service'),
         pluralize(instanceCount, t('label.collection'))
       );
+      
+    case ServiceCategory.MCP_SERVICES:
+      return getEntityDeleteMessage(
+        service || t('label.service'),
+        pluralize(instanceCount, t('label.mcp-service'))
+      );
 
     default:
       return;
@@ -346,6 +352,8 @@ export const getServiceRouteFromServiceType = (type: ServiceTypes) => {
       return GlobalSettingOptions.SEARCH;
     case ServiceCategory.API_SERVICES:
       return GlobalSettingOptions.APIS;
+    case ServiceCategory.MCP_SERVICES:
+      return GlobalSettingOptions.MCP;
     case ServiceCategory.SECURITY_SERVICES:
       return GlobalSettingOptions.SECURITY;
     case ServiceCategory.DATABASE_SERVICES:
@@ -392,6 +400,10 @@ export const getResourceEntityFromServiceCategory = (
 
     case ServiceCategory.API_SERVICES:
       return ResourceEntity.API_SERVICE;
+      
+    case 'mcp':
+    case ServiceCategory.MCP_SERVICES:
+      return ResourceEntity.MCP_SERVICE;
   }
 
   return ResourceEntity.DATABASE_SERVICE;
@@ -413,6 +425,8 @@ export const getCountLabel = (serviceName: ServiceTypes) => {
       return t('label.search-index-plural');
     case ServiceCategory.API_SERVICES:
       return t('label.collection-plural');
+    case ServiceCategory.MCP_SERVICES:
+      return t('label.mcp-plural');
     case ServiceCategory.DATABASE_SERVICES:
     default:
       return t('label.database-plural');
@@ -446,6 +460,8 @@ export const getServiceCategoryFromEntityType = (
       return ServiceCategory.SEARCH_SERVICES;
     case EntityType.API_SERVICE:
       return ServiceCategory.API_SERVICES;
+    case EntityType.MCP_SERVICE:
+      return ServiceCategory.MCP_SERVICES;
     case EntityType.SECURITY_SERVICE:
       return ServiceCategory.SECURITY_SERVICES;
     case EntityType.DATABASE_SERVICE:

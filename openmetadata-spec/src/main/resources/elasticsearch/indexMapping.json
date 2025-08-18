@@ -520,6 +520,16 @@
       "apiEndpoint"
     ]
   },
+  "mcpService": {
+    "indexName": "mcp_service_search_index",
+    "indexMappingFile": "/elasticsearch/%s/mcp_service_index_mapping.json",
+    "alias": "mcpService",
+    "parentAliases": [
+      "all",
+      "service"
+    ],
+    "childAliases": []
+  },
   "apiCollection": {
     "indexName": "api_collection_search_index",
     "alias": "apiCollection",

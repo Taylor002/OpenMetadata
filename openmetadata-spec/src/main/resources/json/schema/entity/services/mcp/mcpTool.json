@@ -1,0 +1,147 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/services/mcp/mcpTool.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "McpTool",
+  "description": "This schema defines the MCP Tool entity. An MCP Tool represents a specific function or operation exposed by an MCP service.",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.entity.services.mcp.McpTool",
+  "javaInterfaces": ["org.openmetadata.schema.EntityInterface"],
+  "definitions": {
+    "mcpToolType": {
+      "description": "Type of MCP tool based on its functionality",
+      "type": "string",
+      "enum": ["FileOperation", "WebOperation", "DataOperation", "SystemOperation", "Custom"],
+      "default": "Custom"
+    }
+  },
+  "properties": {
+    "id": {
+      "description": "Unique identifier of this MCP tool instance.",
+      "$ref": "../../../type/basic.json#/definitions/uuid"
+    },
+    "name": {
+      "description": "Name of the MCP tool.",
+      "$ref": "../../../type/basic.json#/definitions/entityName"
+    },
+    "fullyQualifiedName": {
+      "description": "Fully qualified name of the MCP tool.",
+      "$ref": "../../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this MCP tool.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of the MCP tool.",
+      "$ref": "../../../type/basic.json#/definitions/markdown"
+    },
+    "version": {
+      "description": "Metadata version of the entity.",
+      "$ref": "../../../type/entityHistory.json#/definitions/entityVersion"
+    },
+    "updatedAt": {
+      "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+      "$ref": "../../../type/basic.json#/definitions/timestamp"
+    },
+    "updatedBy": {
+      "description": "User who made the update.",
+      "type": "string"
+    },
+    "href": {
+      "description": "Link to the resource corresponding to this MCP tool.",
+      "$ref": "../../../type/basic.json#/definitions/href"
+    },
+    "service": {
+      "description": "Reference to the MCP service that this tool belongs to.",
+      "$ref": "../../../type/entityReference.json"
+    },
+    "serviceType": {
+      "description": "Service type this tool belongs to.",
+      "$ref": "../../../entity/services/serviceType.json"
+    },
+    "toolType": {
+      "description": "Type of the MCP tool.",
+      "$ref": "#/definitions/mcpToolType"
+    },
+    "category": {
+      "description": "Category or grouping for the tool.",
+      "type": "string"
+    },
+    "inputSchema": {
+      "description": "JSON Schema defining the tool's input parameters.",
+      "type": "string"
+    },
+    "outputSchema": {
+      "description": "JSON Schema defining the tool's output format.",
+      "type": "string"
+    },
+    "examples": {
+      "description": "Example usages of the tool.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "description": "Description of the example.",
+            "type": "string"
+          },
+          "input": {
+            "description": "Example input for the tool.",
+            "type": "object"
+          },
+          "output": {
+            "description": "Example output from the tool.",
+            "type": "object"
+          }
+        }
+      }
+    },
+    "tags": {
+      "description": "Tags for this MCP tool.",
+      "type": "array",
+      "items": {
+        "$ref": "../../../type/tagLabel.json"
+      },
+      "default": null
+    },
+    "owners": {
+      "description": "Owners of this MCP tool.",
+      "$ref": "../../../type/entityReferenceList.json"
+    },
+    "followers": {
+      "description": "Followers of this MCP tool.",
+      "$ref": "../../../type/entityReferenceList.json"
+    },
+    "dataProducts": {
+      "description": "List of data products this entity is part of.",
+      "$ref": "../../../type/entityReferenceList.json"
+    },
+    "votes": {
+      "description": "Votes on the entity.",
+      "$ref": "../../../type/votes.json"
+    },
+    "lifeCycle": {
+      "description": "Life Cycle properties of the entity.",
+      "$ref": "../../../type/lifeCycle.json"
+    },
+    "changeDescription": {
+      "description": "Change that lead to this version of the entity.",
+      "$ref": "../../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "incrementalChangeDescription": {
+      "description": "Description of incremental changes.",
+      "$ref": "../../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "deleted": {
+      "description": "When `true` indicates the entity has been soft deleted.",
+      "type": "boolean",
+      "default": false
+    },
+    "domains": {
+      "description": "List of domains the MCP tool belongs to.",
+      "$ref": "../../../type/entityReferenceList.json"
+    }
+  },
+  "required": ["id", "name", "service"],
+  "additionalProperties": false
+}

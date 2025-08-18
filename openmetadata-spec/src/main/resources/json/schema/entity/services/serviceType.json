@@ -5,6 +5,7 @@
   "description": "This schema defines the service types entities which requires a connection.",
   "type": "string",
   "javaType": "org.openmetadata.schema.entity.services.ServiceType",
+  "javaInterfaces": ["org.openmetadata.schema.EnumInterface"],
   "enum": [
     "Dashboard",
     "Database",

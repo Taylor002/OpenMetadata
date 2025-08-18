@@ -1,0 +1,181 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/services/mcp/mcpPrompt.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "McpPrompt",
+  "description": "This schema defines the MCP Prompt entity. An MCP Prompt represents a template for AI interactions exposed by an MCP service.",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.entity.services.mcp.McpPrompt",
+  "javaInterfaces": ["org.openmetadata.schema.EntityInterface"],
+  "definitions": {
+    "mcpPromptType": {
+      "description": "Type of MCP prompt based on its purpose",
+      "type": "string",
+      "enum": ["Analysis", "Generation", "Transformation", "Validation", "Custom"],
+      "default": "Custom"
+    },
+    "promptArgument": {
+      "description": "Argument definition for an MCP prompt",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the argument",
+          "type": "string"
+        },
+        "type": {
+          "description": "Expected type of the argument (e.g., string, number, boolean, array, object)",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the argument",
+          "type": "string"
+        },
+        "required": {
+          "description": "Whether this argument is required",
+          "type": "boolean",
+          "default": false
+        },
+        "default": {
+          "description": "Default value for the argument",
+          "type": ["string", "number", "boolean", "array", "object", "null"]
+        },
+        "enum": {
+          "description": "Allowed values for the argument",
+          "type": "array",
+          "items": {
+            "type": ["string", "number", "boolean"]
+          }
+        }
+      },
+      "required": ["name", "type"]
+    }
+  },
+  "properties": {
+    "id": {
+      "description": "Unique identifier of this MCP prompt instance.",
+      "$ref": "../../../type/basic.json#/definitions/uuid"
+    },
+    "name": {
+      "description": "Name of the MCP prompt.",
+      "$ref": "../../../type/basic.json#/definitions/entityName"
+    },
+    "fullyQualifiedName": {
+      "description": "Fully qualified name of the MCP prompt.",
+      "$ref": "../../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this MCP prompt.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of the MCP prompt.",
+      "$ref": "../../../type/basic.json#/definitions/markdown"
+    },
+    "version": {
+      "description": "Metadata version of the entity.",
+      "$ref": "../../../type/entityHistory.json#/definitions/entityVersion"
+    },
+    "updatedAt": {
+      "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+      "$ref": "../../../type/basic.json#/definitions/timestamp"
+    },
+    "updatedBy": {
+      "description": "User who made the update.",
+      "type": "string"
+    },
+    "href": {
+      "description": "Link to the resource corresponding to this MCP prompt.",
+      "$ref": "../../../type/basic.json#/definitions/href"
+    },
+    "service": {
+      "description": "Reference to the MCP service that this prompt belongs to.",
+      "$ref": "../../../type/entityReference.json"
+    },
+    "serviceType": {
+      "description": "Service type this prompt belongs to.",
+      "$ref": "../../../entity/services/serviceType.json"
+    },
+    "promptType": {
+      "description": "Type of the MCP prompt.",
+      "$ref": "#/definitions/mcpPromptType"
+    },
+    "template": {
+      "description": "Template text for the prompt.",
+      "type": "string"
+    },
+    "arguments": {
+      "description": "Arguments for the prompt template.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/promptArgument"
+      }
+    },
+    "examples": {
+      "description": "Example usages of the prompt.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "description": "Description of the example.",
+            "type": "string"
+          },
+          "arguments": {
+            "description": "Example arguments for the prompt.",
+            "type": "object"
+          },
+          "output": {
+            "description": "Example output from the prompt.",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "tags": {
+      "description": "Tags for this MCP prompt.",
+      "type": "array",
+      "items": {
+        "$ref": "../../../type/tagLabel.json"
+      },
+      "default": null
+    },
+    "owners": {
+      "description": "Owners of this MCP prompt.",
+      "$ref": "../../../type/entityReferenceList.json"
+    },
+    "followers": {
+      "description": "Followers of this MCP prompt.",
+      "$ref": "../../../type/entityReferenceList.json"
+    },
+    "dataProducts": {
+      "description": "List of data products this entity is part of.",
+      "$ref": "../../../type/entityReferenceList.json"
+    },
+    "votes": {
+      "description": "Votes on the entity.",
+      "$ref": "../../../type/votes.json"
+    },
+    "lifeCycle": {
+      "description": "Life Cycle properties of the entity.",
+      "$ref": "../../../type/lifeCycle.json"
+    },
+    "changeDescription": {
+      "description": "Change that lead to this version of the entity.",
+      "$ref": "../../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "incrementalChangeDescription": {
+      "description": "Description of incremental changes.",
+      "$ref": "../../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "deleted": {
+      "description": "When `true` indicates the entity has been soft deleted.",
+      "type": "boolean",
+      "default": false
+    },
+    "domains": {
+      "description": "List of domains the MCP prompt belongs to.",
+      "$ref": "../../../type/entityReferenceList.json"
+    }
+  },
+  "required": ["id", "name", "service"],
+  "additionalProperties": false
+}

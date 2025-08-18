@@ -147,6 +147,7 @@ import { useRequiredParams } from '../../utils/useRequiredParams';
 import './service-details-page.less';
 import { ServicePageData } from './ServiceDetailsPage.interface';
 import ServiceMainTabContent from './ServiceMainTabContent';
+import McpServiceMainTabContent from './McpServiceMainTabContent';
 
 const ServiceDetailsPage: FunctionComponent = () => {
   const { t } = useTranslation();
@@ -979,6 +980,19 @@ const ServiceDetailsPage: FunctionComponent = () => {
     [saveUpdatedServiceData, serviceDetails]
   );
 
+  const handleTagsUpdate = useCallback(
+    async (selectedTags?: Tag[]) => {
+      if (selectedTags) {
+        const updatedServiceDetails = {
+          ...serviceDetails,
+          tags: selectedTags,
+        };
+        return saveUpdatedServiceData(updatedServiceDetails);
+      }
+    },
+    [saveUpdatedServiceData, serviceDetails]
+  );
+
   const afterDomainUpdateAction = useCallback((data: DataAssetWithDomains) => {
     const updatedData = data as ServicesType;
 
@@ -1393,24 +1407,35 @@ const ServiceDetailsPage: FunctionComponent = () => {
           name: getCountLabel(serviceCategory),
           key: getCountLabel(serviceCategory).toLowerCase(),
           count: paging.total,
-          children: (
-            <ServiceMainTabContent
-              currentPage={currentPage}
-              data={data}
-              isServiceLoading={isServiceLoading}
-              paging={paging}
-              pagingHandler={pagingHandler}
-              pagingInfo={pagingInfo}
-              saveUpdatedServiceData={saveUpdatedServiceData}
-              serviceDetails={serviceDetails}
-              serviceName={serviceCategory}
-              servicePermission={servicePermission}
-              showDeleted={showDeleted}
-              onDataProductUpdate={handleDataProductUpdate}
-              onDescriptionUpdate={handleDescriptionUpdate}
-              onShowDeletedChange={handleShowDeleted}
-            />
-          ),
+          children:
+            serviceCategory === ServiceCategory.MCP_SERVICES ? (
+              <McpServiceMainTabContent
+                serviceName={serviceDetails?.name ?? ''}
+                servicePermission={servicePermission}
+                serviceDetails={serviceDetails}
+                onDescriptionUpdate={handleDescriptionUpdate}
+                tags={serviceDetails?.tags ?? []}
+                onTagUpdate={handleTagsUpdate}
+                onDataProductUpdate={handleDataProductUpdate}
+              />
+            ) : (
+              <ServiceMainTabContent
+                currentPage={currentPage}
+                data={data}
+                isServiceLoading={isServiceLoading}
+                paging={paging}
+                pagingHandler={pagingHandler}
+                pagingInfo={pagingInfo}
+                saveUpdatedServiceData={saveUpdatedServiceData}
+                serviceDetails={serviceDetails}
+                serviceName={serviceCategory}
+                servicePermission={servicePermission}
+                showDeleted={showDeleted}
+                onDataProductUpdate={handleDataProductUpdate}
+                onDescriptionUpdate={handleDescriptionUpdate}
+                onShowDeletedChange={handleShowDeleted}
+              />
+            ),
         }
       );
     }

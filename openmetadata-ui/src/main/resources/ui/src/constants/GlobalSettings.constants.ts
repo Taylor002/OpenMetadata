@@ -77,6 +77,7 @@ export enum GlobalSettingOptions {
   APIS = 'apiServices',
   API_COLLECTIONS = 'apiCollections',
   API_ENDPOINTS = 'apiEndpoints',
+  MCP = 'mcp',
   DATA_PRODUCT = 'dataProducts',
   METRICS = 'metrics',
   SEARCH_RBAC = 'search-rbac',

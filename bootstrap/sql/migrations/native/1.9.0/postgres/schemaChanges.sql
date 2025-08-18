@@ -232,3 +232,4 @@ CREATE INDEX IF NOT EXISTS idx_successful_events_timestamp_desc ON successful_se
 
 -- Add composite index for better performance when filtering by subscription ID and ordering by timestamp
 CREATE INDEX IF NOT EXISTS idx_successful_events_subscription_timestamp ON successful_sent_change_events (event_subscription_id, timestamp DESC);
+

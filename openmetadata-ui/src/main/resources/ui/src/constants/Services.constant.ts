@@ -91,6 +91,7 @@ import dashboardDefault from '../assets/svg/dashboard.svg';
 import iconDefaultService from '../assets/svg/default-service-icon.svg';
 import elasticSearch from '../assets/svg/elasticsearch.svg';
 import databaseDefault from '../assets/svg/ic-custom-database.svg';
+import mcpService from '../assets/svg/ic-mcp-service.svg';
 import mlModelDefault from '../assets/svg/ic-custom-model.svg';
 import searchDefault from '../assets/svg/ic-custom-search.svg';
 import storageDefault from '../assets/svg/ic-custom-storage.svg';
@@ -113,6 +114,7 @@ import { StorageServiceType } from '../generated/entity/data/container';
 import { APIServiceType } from '../generated/entity/services/apiService';
 import { DashboardServiceType } from '../generated/entity/services/dashboardService';
 import { DatabaseServiceType } from '../generated/entity/services/databaseService';
+import { MCPType as McpServiceType } from '../generated/entity/services/mcpService';
 import { MessagingServiceType } from '../generated/entity/services/messagingService';
 import { MetadataServiceType } from '../generated/entity/services/metadataService';
 import { MlModelServiceType } from '../generated/entity/services/mlmodelService';
@@ -212,6 +214,7 @@ export const FLINK = flink;
 export const REST_SERVICE = restService;
 export const COCKROACH = cockroach;
 export const SECURITY_DEFAULT = securitySafe;
+export const MCP_SERVICE = mcpService;
 export const excludedService = [
   MlModelServiceType.Sklearn,
   MetadataServiceType.MetadataES,
@@ -227,6 +230,7 @@ export const arrServiceTypes: Array<ServiceTypes> = [
   'storageServices',
   'apiServices',
   'securityServices',
+  'mcpServices',
 ];
 
 export const SERVICE_CATEGORY: { [key: string]: ServiceCategory } = {
@@ -240,6 +244,7 @@ export const SERVICE_CATEGORY: { [key: string]: ServiceCategory } = {
   search: ServiceCategory.SEARCH_SERVICES,
   apiServices: ServiceCategory.API_SERVICES,
   security: ServiceCategory.SECURITY_SERVICES,
+  mcp: ServiceCategory.MCP_SERVICES,
 };
 
 export const servicesDisplayName: { [key: string]: string } = {
@@ -272,6 +277,9 @@ export const servicesDisplayName: { [key: string]: string } = {
   }),
   apiServices: i18n.t('label.entity-service', {
     entity: i18n.t('label.api-uppercase'),
+  }),
+  mcpServices: i18n.t('label.entity-service', {
+    entity: i18n.t('label.mcp'),
   }),
   securityServices: i18n.t('label.entity-service', {
     entity: i18n.t('label.security'),
@@ -417,6 +425,7 @@ export const SERVICE_TYPE_MAP = {
   [ServiceCategory.SEARCH_SERVICES]: ServiceType.Search,
   [ServiceCategory.API_SERVICES]: ServiceType.API,
   [ServiceCategory.SECURITY_SERVICES]: ServiceType.Security,
+  [ServiceCategory.MCP_SERVICES]: ServiceType.Mcp,
 };
 
 export const SERVICE_TYPES_ENUM = {
@@ -430,6 +439,7 @@ export const SERVICE_TYPES_ENUM = {
   [ServiceCategory.SEARCH_SERVICES]: SearchServiceType,
   [ServiceCategory.API_SERVICES]: APIServiceType,
   [ServiceCategory.SECURITY_SERVICES]: SecurityServiceType,
+  [ServiceCategory.MCP_SERVICES]: McpServiceType,
 };
 
 export const BETA_SERVICES = [

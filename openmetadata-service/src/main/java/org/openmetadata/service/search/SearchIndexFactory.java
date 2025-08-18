@@ -30,6 +30,7 @@ import org.openmetadata.schema.entity.domains.DataProduct;
 import org.openmetadata.schema.entity.domains.Domain;
 import org.openmetadata.schema.entity.services.*;
 import org.openmetadata.schema.entity.services.ApiService;
+import org.openmetadata.schema.entity.services.McpService;
 import org.openmetadata.schema.entity.services.ingestionPipelines.IngestionPipeline;
 import org.openmetadata.schema.entity.teams.Team;
 import org.openmetadata.schema.entity.teams.User;
@@ -60,6 +61,7 @@ import org.openmetadata.service.search.indexes.FileIndex;
 import org.openmetadata.service.search.indexes.GlossaryIndex;
 import org.openmetadata.service.search.indexes.GlossaryTermIndex;
 import org.openmetadata.service.search.indexes.IngestionPipelineIndex;
+import org.openmetadata.service.search.indexes.McpServiceIndex;
 import org.openmetadata.service.search.indexes.MessagingServiceIndex;
 import org.openmetadata.service.search.indexes.MetadataServiceIndex;
 import org.openmetadata.service.search.indexes.MetricIndex;
@@ -126,6 +128,7 @@ public class SearchIndexFactory {
       case Entity.SEARCH_SERVICE -> new SearchServiceIndex((SearchService) entity);
       case Entity.SECURITY_SERVICE -> new SecurityServiceIndex((SecurityService) entity);
       case Entity.API_SERVICE -> new APIServiceIndex((ApiService) entity);
+      case Entity.MCP_SERVICE -> new McpServiceIndex((McpService) entity);
       case Entity.SEARCH_INDEX -> new SearchEntityIndex(
           (org.openmetadata.schema.entity.data.SearchIndex) entity);
       case Entity.PIPELINE_SERVICE -> new PipelineServiceIndex((PipelineService) entity);

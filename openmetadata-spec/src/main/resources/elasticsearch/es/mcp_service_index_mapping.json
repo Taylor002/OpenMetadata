@@ -1,0 +1,159 @@
+{
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "name": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "displayName": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "fullyQualifiedName": {
+        "type": "keyword"
+      },
+      "description": {
+        "type": "text"
+      },
+      "serviceType": {
+        "type": "keyword"
+      },
+      "entityType": {
+        "type": "keyword"
+      },
+      "owners": {
+        "properties": {
+          "id": {
+            "type": "keyword"
+          },
+          "type": {
+            "type": "keyword"
+          },
+          "name": {
+            "type": "keyword"
+          },
+          "displayName": {
+            "type": "keyword"
+          },
+          "fullyQualifiedName": {
+            "type": "keyword"
+          }
+        }
+      },
+      "tags": {
+        "properties": {
+          "tagFQN": {
+            "type": "keyword"
+          },
+          "labelType": {
+            "type": "keyword"
+          },
+          "description": {
+            "type": "text"
+          },
+          "source": {
+            "type": "keyword"
+          },
+          "state": {
+            "type": "keyword"
+          }
+        }
+      },
+      "availableTools": {
+        "properties": {
+          "name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "description": {
+            "type": "text"
+          },
+          "category": {
+            "type": "keyword"
+          }
+        }
+      },
+      "availableResources": {
+        "properties": {
+          "uri": {
+            "type": "keyword"
+          },
+          "name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "description": {
+            "type": "text"
+          },
+          "mimeType": {
+            "type": "keyword"
+          }
+        }
+      },
+      "availablePrompts": {
+        "properties": {
+          "name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "description": {
+            "type": "text"
+          }
+        }
+      },
+      "serverInstructions": {
+        "type": "text"
+      },
+      "deleted": {
+        "type": "boolean"
+      },
+      "fqnParts": {
+        "type": "keyword"
+      },
+      "domains": {
+        "properties": {
+          "id": {
+            "type": "keyword"
+          },
+          "type": {
+            "type": "keyword"
+          },
+          "name": {
+            "type": "keyword"
+          },
+          "displayName": {
+            "type": "keyword"
+          },
+          "fullyQualifiedName": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}

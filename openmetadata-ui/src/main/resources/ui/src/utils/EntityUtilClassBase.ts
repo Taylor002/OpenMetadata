@@ -64,6 +64,7 @@ import {
   FormattedPipelineServiceType,
   FormattedSearchServiceType,
   FormattedStorageServiceType,
+  FormattedMcpServiceType,
 } from './EntityUtils.interface';
 import {
   getApplicationDetailsPath,
@@ -100,6 +101,7 @@ class EntityUtilClassBase {
       ...FormattedMessagingServiceType,
       ...FormattedAPIServiceType,
       ...FormattedStorageServiceType,
+      ...FormattedMcpServiceType,
     });
   }
 
@@ -186,6 +188,7 @@ class EntityUtilClassBase {
       case EntityType.STORAGE_SERVICE:
       case EntityType.SEARCH_SERVICE:
       case EntityType.API_SERVICE:
+      case EntityType.MCP_SERVICE:
         return getServiceDetailsPath(fullyQualifiedName, `${indexType}s`);
 
       case EntityType.WEBHOOK:

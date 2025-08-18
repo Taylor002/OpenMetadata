@@ -70,6 +70,7 @@ import {
   LOGO,
   LOOKER,
   MARIADB,
+  MCP_SERVICE,
   METABASE,
   MICROSTRATEGY,
   MLFLOW,
@@ -121,6 +122,7 @@ import {
   ApiServiceTypeSmallCaseType,
   DashboardServiceTypeSmallCaseType,
   DatabaseServiceTypeSmallCaseType,
+  McpServiceTypeSmallCaseType,
   MessagingServiceTypeSmallCaseType,
   MetadataServiceTypeSmallCaseType,
   MlModelServiceTypeSmallCaseType,
@@ -139,6 +141,7 @@ import { PipelineServiceType } from '../generated/entity/data/pipeline';
 import { SearchServiceType } from '../generated/entity/data/searchIndex';
 import { MessagingServiceType } from '../generated/entity/data/topic';
 import { APIServiceType } from '../generated/entity/services/apiService';
+import { MCPType } from '../generated/entity/services/mcpService';
 import { MetadataServiceType } from '../generated/entity/services/metadataService';
 import { Type as SecurityServiceType } from '../generated/entity/services/securityService';
 import { ServiceType } from '../generated/entity/services/serviceType';
@@ -148,6 +151,7 @@ import profilerPipeline from '../jsons/ingestionSchemas/databaseServiceProfilerP
 import { getAPIConfig } from './APIServiceUtils';
 import { getDashboardConfig } from './DashboardServiceUtils';
 import { getDatabaseConfig } from './DatabaseServiceUtils';
+import { getMcpConfig } from './McpServiceUtils';
 import { getMessagingConfig } from './MessagingServiceUtils';
 import { getMetadataConfig } from './MetadataServiceUtils';
 import { getMlmodelConfig } from './MlmodelServiceUtils';
@@ -228,6 +232,11 @@ class ServiceUtilClassBase {
     { [k: string]: string },
     SecurityServiceTypeSmallCaseType
   >(SecurityServiceType);
+
+  McpServiceTypeSmallCase = this.convertEnumToLowerCase<
+    { [k: string]: string },
+    McpServiceTypeSmallCaseType
+  >(MCPType);
 
   protected updateUnsupportedServices(types: string[]) {
     this.unSupportedServices = types;
@@ -325,6 +334,9 @@ class ServiceUtilClassBase {
       ).sort(customServiceComparator),
       securityServices: this.filterUnsupportedServiceType(
         Object.values(SecurityServiceType) as string[]
+      ).sort(customServiceComparator),
+      mcpServices: this.filterUnsupportedServiceType(
+        Object.values(MCPType) as string[]
       ).sort(customServiceComparator),
     };
   }
@@ -610,6 +622,9 @@ class ServiceUtilClassBase {
       case this.DashboardServiceTypeSmallCase.MicroStrategy:
         return MICROSTRATEGY;
 
+      case this.McpServiceTypeSmallCase.Mcp:
+        return MCP_SERVICE;
+
       default: {
         let logo;
         if (serviceTypes.messagingServices.includes(type)) {
@@ -628,6 +643,8 @@ class ServiceUtilClassBase {
           logo = CUSTOM_SEARCH_DEFAULT;
         } else if (serviceTypes.securityServices.includes(type)) {
           logo = DEFAULT_SERVICE;
+        } else if (serviceTypes.mcpServices.includes(type)) {
+          logo = MCP_SERVICE;
         } else {
           logo = DEFAULT_SERVICE;
         }
@@ -744,6 +761,10 @@ class ServiceUtilClassBase {
 
   public getSecurityServiceConfig(type: SecurityServiceType) {
     return getSecurityConfig(type);
+  }
+
+  public getMcpServiceConfig(type: MCPType) {
+    return getMcpConfig(type);
   }
 
   public getInsightsTabWidgets(_: ServiceTypes) {

@@ -1,0 +1,31 @@
+source:
+  type: mcp
+  serviceName: local_mcp_server
+  serviceConnection:
+    config:
+      type: Mcp
+      connection:
+        config:
+          command: npx
+          args:
+            - "-y"
+            - "@modelcontextprotocol/server-everything"
+          env:
+            NODE_ENV: development
+            LOG_LEVEL: info
+          cwd: /path/to/mcp/server
+  sourceConfig:
+    config:
+      type: McpServiceMetadataPipeline
+
+sink:
+  type: metadata-rest
+  config: {}
+
+workflowConfig:
+  loggerLevel: INFO
+  openMetadataServerConfig:
+    hostPort: http://localhost:8585/api
+    authProvider: openmetadata
+    securityConfig:
+      jwtToken: "your-jwt-token-here"

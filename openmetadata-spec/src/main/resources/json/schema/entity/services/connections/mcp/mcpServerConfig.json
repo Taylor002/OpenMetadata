@@ -1,0 +1,39 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/services/connections/mcp/mcpServerConfig.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "McpServerConfig",
+  "description": "MCP Server Configuration",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.services.connections.mcp.McpServerConfig",
+  "properties": {
+    "command": {
+      "title": "Command",
+      "description": "Command to execute the MCP server",
+      "type": "string"
+    },
+    "args": {
+      "title": "Arguments",
+      "description": "Arguments to pass to the command",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "env": {
+      "title": "Environment Variables",
+      "description": "Environment variables for the MCP server process",
+      "type": "object",
+      "existingJavaType": "java.util.Map<String, String>",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "cwd": {
+      "title": "Working Directory",
+      "description": "Working directory for the MCP server process",
+      "type": "string"
+    }
+  },
+  "required": ["command"],
+  "additionalProperties": false
+}

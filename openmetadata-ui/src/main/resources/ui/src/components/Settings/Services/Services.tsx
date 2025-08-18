@@ -132,6 +132,8 @@ const Services = ({ serviceName }: ServicesProps) => {
         return SearchIndex.SEARCH_SERVICE;
       case ServiceCategory.API_SERVICES:
         return SearchIndex.API_SERVICE_INDEX;
+      case ServiceCategory.MCP_SERVICES:
+        return SearchIndex.MCP_SERVICE;
     }
 
     return SearchIndex.DATABASE_SERVICE;

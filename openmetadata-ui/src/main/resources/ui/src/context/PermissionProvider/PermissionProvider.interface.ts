@@ -83,6 +83,7 @@ export enum ResourceEntity {
   API_SERVICE = 'apiService',
   API_COLLECTION = 'apiCollection',
   API_ENDPOINT = 'apiEndpoint',
+  MCP_SERVICE = 'mcpService',
   INGESTION_RUNNER = 'ingestionRunner',
 }
 

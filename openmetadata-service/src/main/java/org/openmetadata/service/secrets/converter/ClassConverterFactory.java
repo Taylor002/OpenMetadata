@@ -31,6 +31,7 @@ import org.openmetadata.schema.services.connections.database.CassandraConnection
 import org.openmetadata.schema.services.connections.database.CockroachConnection;
 import org.openmetadata.schema.services.connections.database.DatalakeConnection;
 import org.openmetadata.schema.services.connections.database.DeltaLakeConnection;
+import org.openmetadata.schema.services.connections.database.DorisConnection;
 import org.openmetadata.schema.services.connections.database.GreenplumConnection;
 import org.openmetadata.schema.services.connections.database.HiveConnection;
 import org.openmetadata.schema.services.connections.database.IcebergConnection;
@@ -43,6 +44,7 @@ import org.openmetadata.schema.services.connections.database.TrinoConnection;
 import org.openmetadata.schema.services.connections.database.datalake.GCSConfig;
 import org.openmetadata.schema.services.connections.database.deltalake.StorageConfig;
 import org.openmetadata.schema.services.connections.database.iceberg.IcebergFileSystem;
+import org.openmetadata.schema.services.connections.mcp.McpConnection;
 import org.openmetadata.schema.services.connections.mlmodel.VertexAIConnection;
 import org.openmetadata.schema.services.connections.pipeline.AirflowConnection;
 import org.openmetadata.schema.services.connections.pipeline.MatillionConnection;
@@ -70,6 +72,7 @@ public final class ClassConverterFactory {
             Map.entry(DeltaLakeConnection.class, new DeltaLakeConnectionClassConverter()),
             Map.entry(DbtGCSConfig.class, new DbtGCSConfigClassConverter()),
             Map.entry(DbtPipeline.class, new DbtPipelineClassConverter()),
+            Map.entry(DorisConnection.class, new DorisConnectionClassConverter()),
             Map.entry(ElasticSearchConnection.class, new ElasticSearchConnectionClassConverter()),
             Map.entry(GCSConfig.class, new GCPConfigClassConverter()),
             Map.entry(GCPCredentials.class, new GcpCredentialsClassConverter()),
@@ -97,11 +100,11 @@ public final class ClassConverterFactory {
             Map.entry(CockroachConnection.class, new CockroachConnectionClassConverter()),
             Map.entry(NifiConnection.class, new NifiConnectionClassConverter()),
             Map.entry(MatillionConnection.class, new MatillionConnectionClassConverter()),
+            Map.entry(McpConnection.class, new McpConnectionClassConverter()),
             Map.entry(VertexAIConnection.class, new VertexAIConnectionClassConverter()),
-            Map.entry(RangerConnection.class, new RangerConnectionClassConverter()));
-    Map.entry(Workflow.class, new WorkflowClassConverter());
-    Map.entry(CassandraConnection.class, new CassandraConnectionClassConverter());
-    Map.entry(SSISConnection.class, new SsisConnectionClassConverter());
+            Map.entry(RangerConnection.class, new RangerConnectionClassConverter()),
+            Map.entry(CassandraConnection.class, new CassandraConnectionClassConverter()),
+            Map.entry(SSISConnection.class, new SsisConnectionClassConverter()));
   }
 
   public static ClassConverter getConverter(Class<?> clazz) {

@@ -1,0 +1,135 @@
+{
+  "$id": "https://open-metadata.org/schema/entity/services/mcp/mcpResource.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "McpResource",
+  "description": "This schema defines the MCP Resource entity. An MCP Resource represents data or content that can be accessed through an MCP service.",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.entity.services.mcp.McpResource",
+  "javaInterfaces": ["org.openmetadata.schema.EntityInterface"],
+  "definitions": {
+    "mcpResourceType": {
+      "description": "Type of MCP resource based on its content",
+      "type": "string",
+      "enum": ["File", "Directory", "URL", "Database", "API", "Custom"],
+      "default": "Custom"
+    }
+  },
+  "properties": {
+    "id": {
+      "description": "Unique identifier of this MCP resource instance.",
+      "$ref": "../../../type/basic.json#/definitions/uuid"
+    },
+    "name": {
+      "description": "Name of the MCP resource.",
+      "$ref": "../../../type/basic.json#/definitions/entityName"
+    },
+    "fullyQualifiedName": {
+      "description": "Fully qualified name of the MCP resource.",
+      "$ref": "../../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this MCP resource.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of the MCP resource.",
+      "$ref": "../../../type/basic.json#/definitions/markdown"
+    },
+    "version": {
+      "description": "Metadata version of the entity.",
+      "$ref": "../../../type/entityHistory.json#/definitions/entityVersion"
+    },
+    "updatedAt": {
+      "description": "Last update time corresponding to the new version of the entity in Unix epoch time milliseconds.",
+      "$ref": "../../../type/basic.json#/definitions/timestamp"
+    },
+    "updatedBy": {
+      "description": "User who made the update.",
+      "type": "string"
+    },
+    "href": {
+      "description": "Link to the resource corresponding to this MCP resource.",
+      "$ref": "../../../type/basic.json#/definitions/href"
+    },
+    "service": {
+      "description": "Reference to the MCP service that this resource belongs to.",
+      "$ref": "../../../type/entityReference.json"
+    },
+    "serviceType": {
+      "description": "Service type this resource belongs to.",
+      "$ref": "../../../entity/services/serviceType.json"
+    },
+    "resourceType": {
+      "description": "Type of the MCP resource.",
+      "$ref": "#/definitions/mcpResourceType"
+    },
+    "uri": {
+      "description": "URI of the resource.",
+      "type": "string"
+    },
+    "mimeType": {
+      "description": "MIME type of the resource.",
+      "type": "string"
+    },
+    "size": {
+      "description": "Size of the resource in bytes (if applicable).",
+      "type": "integer"
+    },
+    "lastModified": {
+      "description": "Last modified timestamp of the resource.",
+      "$ref": "../../../type/basic.json#/definitions/timestamp"
+    },
+    "metadata": {
+      "description": "Additional metadata about the resource.",
+      "type": "object",
+      "additionalProperties": true
+    },
+    "tags": {
+      "description": "Tags for this MCP resource.",
+      "type": "array",
+      "items": {
+        "$ref": "../../../type/tagLabel.json"
+      },
+      "default": null
+    },
+    "owners": {
+      "description": "Owners of this MCP resource.",
+      "$ref": "../../../type/entityReferenceList.json"
+    },
+    "followers": {
+      "description": "Followers of this MCP resource.",
+      "$ref": "../../../type/entityReferenceList.json"
+    },
+    "dataProducts": {
+      "description": "List of data products this entity is part of.",
+      "$ref": "../../../type/entityReferenceList.json"
+    },
+    "votes": {
+      "description": "Votes on the entity.",
+      "$ref": "../../../type/votes.json"
+    },
+    "lifeCycle": {
+      "description": "Life Cycle properties of the entity.",
+      "$ref": "../../../type/lifeCycle.json"
+    },
+    "changeDescription": {
+      "description": "Change that lead to this version of the entity.",
+      "$ref": "../../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "incrementalChangeDescription": {
+      "description": "Description of incremental changes.",
+      "$ref": "../../../type/entityHistory.json#/definitions/changeDescription"
+    },
+    "deleted": {
+      "description": "When `true` indicates the entity has been soft deleted.",
+      "type": "boolean",
+      "default": false
+    },
+    "domains": {
+      "description": "List of domains the MCP resource belongs to.",
+      "$ref": "../../../type/entityReferenceList.json"
+    }
+  },
+  "required": ["id", "name", "service", "uri"],
+  "additionalProperties": false
+}

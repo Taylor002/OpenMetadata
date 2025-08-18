@@ -5,32 +5,13 @@
   "description": "MCP Connection Config",
   "type": "object",
   "javaType": "org.openmetadata.schema.services.connections.mcp.McpConnection",
+  "javaInterfaces": ["org.openmetadata.schema.ServiceConnectionEntityInterface"],
   "definitions": {
     "mcpType": {
       "description": "Service type.",
       "type": "string",
       "enum": ["Mcp"],
       "default": "Mcp"
-    },
-    "mcpAuthType": {
-      "title": "MCP Authentication Type",
-      "description": "Authentication type for MCP Server",
-      "type": "object",
-      "javaType": "org.openmetadata.schema.services.connections.mcp.McpAuthType",
-      "oneOf": [
-        {
-          "$ref": "../../../../security/noAuth.json"
-        },
-        {
-          "$ref": "../../../../security/apiAccessTokenAuth.json"
-        },
-        {
-          "$ref": "../../../../security/bearerTokenAuth.json"
-        },
-        {
-          "$ref": "../../../../security/customBasicAuth.json"
-        }
-      ]
     }
   },
   "properties": {
@@ -39,45 +20,27 @@
       "$ref": "#/definitions/mcpType",
       "default": "Mcp"
     },
-    "serverUrl": {
-      "description": "MCP Server URL endpoint. Example: mcp://localhost:3000 or https://mcp-server.example.com",
-      "type": "string",
-      "format": "uri",
-      "expose": true
-    },
-    "protocolVersion": {
-      "description": "MCP Protocol version supported by the server",
-      "type": "string",
-      "default": "2024-11-05"
-    },
-    "authType": {
-      "title": "Authentication Type",
-      "description": "Authentication type for the MCP Server",
-      "$ref": "#/definitions/mcpAuthType"
-    },
-    "verifySSL": {
-      "description": "Verify SSL certificate for HTTPS connections",
-      "type": "boolean",
-      "default": true
-    },
-    "connectionTimeout": {
-      "description": "Connection timeout in seconds",
-      "type": "integer",
-      "default": 30,
-      "minimum": 1
-    },
-    "supportsMetadata": {
-      "description": "Pass the metadata source name to the MCP server",
-      "type": "boolean",
-      "default": true
+    "config": {
+      "description": "MCP Server Configuration",
+      "oneOf": [
+        {
+          "$ref": "./mcpServerConfig.json"
+        }
+      ]
     },
     "connectionOptions": {
-      "$ref": "../../../../configuration/connectionOptions.json"
+      "title": "Connection Options",
+      "$ref": "../connectionBasicType.json#/definitions/connectionOptions"
     },
     "connectionArguments": {
-      "$ref": "../../../../configuration/connectionArguments.json"
+      "title": "Connection Arguments",
+      "$ref": "../connectionBasicType.json#/definitions/connectionArguments"
+    },
+    "supportsMetadataExtraction": {
+      "title": "Supports Metadata Extraction",
+      "$ref": "../connectionBasicType.json#/definitions/supportsMetadataExtraction"
     }
   },
   "additionalProperties": false,
-  "required": ["serverUrl"]
+  "required": ["config"]
 }

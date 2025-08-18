@@ -67,6 +67,9 @@
               "$ref": "apiServiceMetadataPipeline.json"
             },
             {
+              "$ref": "mcpServiceMetadataPipeline.json"
+            },
+            {
               "$ref": "reverseIngestionPipeline.json"
             }
           ]

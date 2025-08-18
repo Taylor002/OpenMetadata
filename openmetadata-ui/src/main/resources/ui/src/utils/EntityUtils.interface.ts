@@ -150,3 +150,7 @@ export enum FormattedStorageServiceType {
   Gcs = 'GCS',
   S3 = 'S3',
 }
+
+export enum FormattedMcpServiceType {
+  Mcp = 'MCP',
+}

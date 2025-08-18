@@ -1,0 +1,495 @@
+{
+  "services": [
+    {
+      "name": "everything-mcp-server",
+      "displayName": "Everything MCP Server",
+      "description": "A comprehensive MCP server that provides file system operations, web browsing, and various utility tools",
+      "serviceType": "Stdio",
+      "connection": {
+        "config": {
+          "type": "Mcp",
+          "config": {
+            "command": "npx",
+            "args": ["-y", "@modelcontextprotocol/server-everything"],
+            "env": {
+              "NODE_ENV": "production"
+            }
+          }
+        }
+      },
+      "availableTools": [
+        {
+          "name": "read_file",
+          "description": "Read the contents of a file at the specified path",
+          "category": "file_operations",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path to the file to read"
+              }
+            },
+            "required": ["path"]
+          }
+        },
+        {
+          "name": "write_file",
+          "description": "Write content to a file at the specified path",
+          "category": "file_operations",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path to the file to write"
+              },
+              "content": {
+                "type": "string",
+                "description": "The content to write to the file"
+              }
+            },
+            "required": ["path", "content"]
+          }
+        },
+        {
+          "name": "list_directory",
+          "description": "List the contents of a directory",
+          "category": "file_operations",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path to the directory to list"
+              },
+              "recursive": {
+                "type": "boolean",
+                "description": "Whether to list recursively",
+                "default": false
+              }
+            },
+            "required": ["path"]
+          }
+        },
+        {
+          "name": "search_web",
+          "description": "Search the web for information",
+          "category": "web",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "The search query"
+              },
+              "max_results": {
+                "type": "integer",
+                "description": "Maximum number of results to return",
+                "default": 10
+              }
+            },
+            "required": ["query"]
+          }
+        },
+        {
+          "name": "fetch_url",
+          "description": "Fetch the content from a URL",
+          "category": "web",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "The URL to fetch"
+              }
+            },
+            "required": ["url"]
+          }
+        }
+      ],
+      "availableResources": [
+        {
+          "uri": "file:///docs/api-reference",
+          "name": "API Reference Documentation",
+          "description": "Complete API reference for all available endpoints and methods",
+          "mimeType": "text/markdown"
+        },
+        {
+          "uri": "file:///templates",
+          "name": "Code Templates",
+          "description": "Collection of code templates and examples",
+          "mimeType": "text/plain"
+        },
+        {
+          "uri": "file:///config/settings.json",
+          "name": "Configuration Settings",
+          "description": "Current server configuration settings",
+          "mimeType": "application/json"
+        }
+      ],
+      "availablePrompts": [
+        {
+          "name": "code_review",
+          "description": "Review code for best practices, security issues, and improvements",
+          "arguments": {
+            "code": {
+              "type": "string",
+              "description": "The code to review"
+            },
+            "language": {
+              "type": "string",
+              "description": "Programming language of the code",
+              "enum": ["python", "javascript", "java", "go", "rust", "typescript"]
+            },
+            "focus": {
+              "type": "string",
+              "description": "Specific aspect to focus on",
+              "enum": ["security", "performance", "readability", "all"],
+              "default": "all"
+            }
+          }
+        },
+        {
+          "name": "generate_documentation",
+          "description": "Generate documentation for code or APIs",
+          "arguments": {
+            "source": {
+              "type": "string",
+              "description": "Source code or API specification"
+            },
+            "format": {
+              "type": "string",
+              "description": "Output format for documentation",
+              "enum": ["markdown", "html", "pdf"],
+              "default": "markdown"
+            }
+          }
+        },
+        {
+          "name": "data_analysis",
+          "description": "Analyze data and provide insights",
+          "arguments": {
+            "data": {
+              "type": "string",
+              "description": "Data to analyze (CSV, JSON, or description)"
+            },
+            "analysis_type": {
+              "type": "string",
+              "description": "Type of analysis to perform",
+              "enum": ["statistical", "trend", "summary", "anomaly"],
+              "default": "summary"
+            }
+          }
+        }
+      ],
+      "serverInstructions": "This is a comprehensive MCP server providing file operations, web access, and utility tools. Use read_file/write_file for file operations, search_web/fetch_url for web access. Available prompts help with code review, documentation generation, and data analysis."
+    },
+    {
+      "name": "github-mcp-server",
+      "displayName": "GitHub MCP Server",
+      "description": "MCP server for interacting with GitHub repositories, issues, and pull requests",
+      "serviceType": "Stdio",
+      "connection": {
+        "config": {
+          "type": "Mcp",
+          "config": {
+            "command": "node",
+            "args": ["/opt/mcp-servers/github-server.js"],
+            "env": {
+              "GITHUB_TOKEN": "${GITHUB_TOKEN}",
+              "LOG_LEVEL": "info"
+            },
+            "cwd": "/opt/mcp-servers"
+          }
+        }
+      },
+      "availableTools": [
+        {
+          "name": "list_repositories",
+          "description": "List repositories for a user or organization",
+          "category": "repository",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "owner": {
+                "type": "string",
+                "description": "Repository owner (user or organization)"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["all", "public", "private", "member"],
+                "default": "all"
+              }
+            },
+            "required": ["owner"]
+          }
+        },
+        {
+          "name": "get_repository",
+          "description": "Get detailed information about a repository",
+          "category": "repository",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "owner": {
+                "type": "string",
+                "description": "Repository owner"
+              },
+              "repo": {
+                "type": "string",
+                "description": "Repository name"
+              }
+            },
+            "required": ["owner", "repo"]
+          }
+        },
+        {
+          "name": "create_issue",
+          "description": "Create a new issue in a repository",
+          "category": "issues",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "owner": {
+                "type": "string",
+                "description": "Repository owner"
+              },
+              "repo": {
+                "type": "string",
+                "description": "Repository name"
+              },
+              "title": {
+                "type": "string",
+                "description": "Issue title"
+              },
+              "body": {
+                "type": "string",
+                "description": "Issue body"
+              },
+              "labels": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Labels to assign"
+              }
+            },
+            "required": ["owner", "repo", "title"]
+          }
+        },
+        {
+          "name": "list_pull_requests",
+          "description": "List pull requests for a repository",
+          "category": "pull_requests",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "owner": {
+                "type": "string",
+                "description": "Repository owner"
+              },
+              "repo": {
+                "type": "string",
+                "description": "Repository name"
+              },
+              "state": {
+                "type": "string",
+                "enum": ["open", "closed", "all"],
+                "default": "open"
+              }
+            },
+            "required": ["owner", "repo"]
+          }
+        }
+      ],
+      "availableResources": [
+        {
+          "uri": "github://repos",
+          "name": "Repositories",
+          "description": "Access to GitHub repositories",
+          "mimeType": "application/json"
+        },
+        {
+          "uri": "github://issues",
+          "name": "Issues",
+          "description": "Access to GitHub issues",
+          "mimeType": "application/json"
+        },
+        {
+          "uri": "github://pulls",
+          "name": "Pull Requests",
+          "description": "Access to GitHub pull requests",
+          "mimeType": "application/json"
+        }
+      ],
+      "availablePrompts": [
+        {
+          "name": "pr_review",
+          "description": "Review a pull request and provide feedback",
+          "arguments": {
+            "pr_url": {
+              "type": "string",
+              "description": "Pull request URL"
+            },
+            "focus_areas": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Areas to focus on during review"
+            }
+          }
+        },
+        {
+          "name": "issue_triage",
+          "description": "Help triage and categorize issues",
+          "arguments": {
+            "repo": {
+              "type": "string",
+              "description": "Repository (owner/name format)"
+            },
+            "include_closed": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      ],
+      "serverInstructions": "GitHub MCP server for repository management. Requires GITHUB_TOKEN environment variable. Use list_repositories to discover repos, create_issue for bug reports, and list_pull_requests to review PRs."
+    },
+    {
+      "name": "database-mcp-server",
+      "displayName": "Database Query MCP Server",
+      "description": "MCP server for executing database queries and managing database schemas",
+      "serviceType": "Stdio",
+      "connection": {
+        "config": {
+          "type": "Mcp",
+          "config": {
+            "command": "python",
+            "args": ["-m", "mcp_servers.database"],
+            "env": {
+              "DATABASE_URL": "${DATABASE_URL}",
+              "MAX_CONNECTIONS": "10"
+            }
+          }
+        }
+      },
+      "availableTools": [
+        {
+          "name": "execute_query",
+          "description": "Execute a SQL query",
+          "category": "query",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "SQL query to execute"
+              },
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum rows to return",
+                "default": 100
+              }
+            },
+            "required": ["query"]
+          }
+        },
+        {
+          "name": "list_tables",
+          "description": "List all tables in a database",
+          "category": "schema",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "schema": {
+                "type": "string",
+                "description": "Schema name",
+                "default": "public"
+              }
+            },
+            "required": ["database"]
+          }
+        },
+        {
+          "name": "describe_table",
+          "description": "Get table schema information",
+          "category": "schema",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "database": {
+                "type": "string",
+                "description": "Database name"
+              },
+              "table": {
+                "type": "string",
+                "description": "Table name"
+              }
+            },
+            "required": ["database", "table"]
+          }
+        }
+      ],
+      "availableResources": [
+        {
+          "uri": "db://schemas",
+          "name": "Database Schemas",
+          "description": "Available database schemas",
+          "mimeType": "application/json"
+        },
+        {
+          "uri": "db://query-history",
+          "name": "Query History",
+          "description": "Recent query execution history",
+          "mimeType": "application/json"
+        }
+      ],
+      "availablePrompts": [
+        {
+          "name": "optimize_query",
+          "description": "Optimize a SQL query for better performance",
+          "arguments": {
+            "query": {
+              "type": "string",
+              "description": "SQL query to optimize"
+            },
+            "database_type": {
+              "type": "string",
+              "enum": ["postgresql", "mysql", "sqlite", "oracle"],
+              "description": "Database type"
+            }
+          }
+        },
+        {
+          "name": "generate_query",
+          "description": "Generate SQL query from natural language",
+          "arguments": {
+            "description": {
+              "type": "string",
+              "description": "Natural language description of desired query"
+            },
+            "tables": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Tables to consider"
+            }
+          }
+        }
+      ],
+      "serverInstructions": "Database MCP server for SQL operations. Supports multiple database types. Use execute_query for running SQL, list_tables/describe_table for schema exploration. Includes query optimization and natural language query generation."
+    }
+  ]
+}

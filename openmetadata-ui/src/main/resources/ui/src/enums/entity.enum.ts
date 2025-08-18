@@ -30,6 +30,7 @@ export enum EntityType {
   STORAGE_SERVICE = 'storageService',
   SEARCH_SERVICE = 'searchService',
   SECURITY_SERVICE = 'securityService',
+  MCP_SERVICE = 'mcpService',
   WEBHOOK = 'webhook',
   MLMODEL = 'mlmodel',
   TYPE = 'type',

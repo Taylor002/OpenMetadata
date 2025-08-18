@@ -1,0 +1,84 @@
+{
+  "$id": "https://open-metadata.org/schema/api/services/mcp/createMcpResource.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CreateMcpResourceRequest",
+  "description": "Create MCP Resource request",
+  "type": "object",
+  "javaType": "org.openmetadata.schema.api.services.mcp.CreateMcpResourceRequest",
+  "javaInterfaces": ["org.openmetadata.schema.CreateEntity"],
+  "properties": {
+    "name": {
+      "description": "Name of the MCP resource.",
+      "$ref": "../../../type/basic.json#/definitions/entityName"
+    },
+    "displayName": {
+      "description": "Display Name that identifies this MCP resource.",
+      "type": "string"
+    },
+    "description": {
+      "description": "Description of the MCP resource.",
+      "$ref": "../../../type/basic.json#/definitions/markdown"
+    },
+    "service": {
+      "description": "Reference to the MCP service that this resource belongs to.",
+      "$ref": "../../../type/basic.json#/definitions/fullyQualifiedEntityName"
+    },
+    "resourceType": {
+      "description": "Type of the MCP resource.",
+      "$ref": "../../../entity/services/mcp/mcpResource.json#/definitions/mcpResourceType"
+    },
+    "uri": {
+      "description": "URI of the resource.",
+      "type": "string"
+    },
+    "mimeType": {
+      "description": "MIME type of the resource.",
+      "type": "string"
+    },
+    "size": {
+      "description": "Size of the resource in bytes (if applicable).",
+      "type": "integer"
+    },
+    "lastModified": {
+      "description": "Last modified timestamp of the resource.",
+      "$ref": "../../../type/basic.json#/definitions/timestamp"
+    },
+    "metadata": {
+      "description": "Additional metadata about the resource.",
+      "type": "object",
+      "additionalProperties": true
+    },
+    "tags": {
+      "description": "Tags for this MCP resource.",
+      "type": "array",
+      "items": {
+        "$ref": "../../../type/tagLabel.json"
+      },
+      "default": null
+    },
+    "owners": {
+      "description": "Owners of this MCP resource.",
+      "$ref": "../../../type/entityReferenceList.json"
+    },
+    "domains": {
+      "description": "List of fully qualified names of domains the MCP resource belongs to.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dataProducts": {
+      "description": "List of fully qualified names of data products this entity is part of.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "lifeCycle": {
+      "description": "Life Cycle properties of the entity.",
+      "$ref": "../../../type/lifeCycle.json"
+    }
+  },
+  "required": ["name", "service", "uri"],
+  "additionalProperties": false
+}

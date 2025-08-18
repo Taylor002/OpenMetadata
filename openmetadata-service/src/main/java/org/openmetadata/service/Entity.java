@@ -180,6 +180,10 @@ public final class Entity {
   public static final String API_COLLCECTION = "apiCollection";
   public static final String API_ENDPOINT = "apiEndpoint";
 
+  public static final String MCP_TOOL = "mcpTool";
+  public static final String MCP_RESOURCE = "mcpResource";
+  public static final String MCP_PROMPT = "mcpPrompt";
+
   public static final String API = "api";
   public static final String MLMODEL = "mlmodel";
   public static final String CONTAINER = "container";

@@ -15,6 +15,7 @@ import { ReactComponent as APICollectionIcon } from '../assets/svg/api-collectio
 import { ReactComponent as APIEndpointIcon } from '../assets/svg/api-endpoints-colored.svg';
 import { ReactComponent as IconAPI } from '../assets/svg/apis-colored.svg';
 import { ReactComponent as ApplicationIcon } from '../assets/svg/application-colored.svg';
+import { ReactComponent as McpIcon } from '../assets/svg/ic-mcp-service.svg';
 import { ReactComponent as BotIcon } from '../assets/svg/bot-colored.svg';
 import { ReactComponent as ChartIcon } from '../assets/svg/chart-colored.svg';
 import { ReactComponent as DashboardIcon } from '../assets/svg/dashboard-colored-new.svg';
@@ -173,6 +174,16 @@ class GlobalSettingsClassBase {
             ),
             key: `${GlobalSettingsMenuCategory.SERVICES}.${GlobalSettingOptions.MESSAGING}`,
             icon: MessagingIcon,
+          },
+          {
+            label: t('label.mcp'),
+            description: t('message.page-sub-header-for-mcp'),
+            isProtected: userPermissions.hasViewPermissions(
+              ResourceEntity.MCP_SERVICE,
+              permissions
+            ),
+            key: `${GlobalSettingsMenuCategory.SERVICES}.${GlobalSettingOptions.MCP}`,
+            icon: McpIcon,
           },
           {
             label: t('label.dashboard-plural'),

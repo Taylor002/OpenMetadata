@@ -1,0 +1,192 @@
+{
+  "description": "Sample data showing MCP tool execution examples",
+  "executions": [
+    {
+      "tool": "read_file",
+      "service": "everything-mcp-server",
+      "timestamp": "2025-01-10T10:30:00Z",
+      "input": {
+        "path": "/docs/api-reference.md"
+      },
+      "output": {
+        "content": "# API Reference\n\n## Endpoints\n\n### GET /api/v1/services\nList all available services...",
+        "success": true
+      },
+      "duration_ms": 45
+    },
+    {
+      "tool": "search_web",
+      "service": "everything-mcp-server",
+      "timestamp": "2025-01-10T10:31:00Z",
+      "input": {
+        "query": "OpenMetadata MCP integration",
+        "max_results": 5
+      },
+      "output": {
+        "results": [
+          {
+            "title": "MCP Service Integration Documentation",
+            "url": "https://docs.open-metadata.org/mcp-services",
+            "snippet": "Learn how to integrate MCP services with OpenMetadata..."
+          },
+          {
+            "title": "Model Context Protocol Overview",
+            "url": "https://modelcontextprotocol.io/",
+            "snippet": "The Model Context Protocol (MCP) is an open protocol..."
+          }
+        ],
+        "success": true
+      },
+      "duration_ms": 1250
+    },
+    {
+      "tool": "list_repositories",
+      "service": "github-mcp-server",
+      "timestamp": "2025-01-10T10:32:00Z",
+      "input": {
+        "owner": "open-metadata",
+        "type": "public"
+      },
+      "output": {
+        "repositories": [
+          {
+            "name": "OpenMetadata",
+            "description": "Open Standard for Metadata. A Single place to Discover, Collaborate and Get your data right.",
+            "stars": 4523,
+            "language": "Java"
+          },
+          {
+            "name": "openmetadata-demo",
+            "description": "Demo deployment of OpenMetadata",
+            "stars": 89,
+            "language": "Python"
+          }
+        ],
+        "success": true
+      },
+      "duration_ms": 890
+    },
+    {
+      "tool": "create_issue",
+      "service": "github-mcp-server",
+      "timestamp": "2025-01-10T10:33:00Z",
+      "input": {
+        "owner": "open-metadata",
+        "repo": "OpenMetadata",
+        "title": "Add support for MCP protocol in ingestion framework",
+        "body": "## Description\nImplement MCP (Model Context Protocol) support to enable AI-powered data discovery.\n\n## Tasks\n- [ ] Create MCP service entity\n- [ ] Implement ingestion connector\n- [ ] Add UI support",
+        "labels": ["feature", "ingestion"]
+      },
+      "output": {
+        "issue_number": 21535,
+        "url": "https://github.com/open-metadata/OpenMetadata/issues/21535",
+        "success": true
+      },
+      "duration_ms": 1430
+    },
+    {
+      "tool": "execute_query",
+      "service": "database-mcp-server",
+      "timestamp": "2025-01-10T10:34:00Z",
+      "input": {
+        "query": "SELECT name, service_type, COUNT(*) as tool_count FROM mcp_services GROUP BY name, service_type",
+        "database": "openmetadata",
+        "limit": 10
+      },
+      "output": {
+        "rows": [
+          {
+            "name": "everything-mcp-server",
+            "service_type": "Stdio",
+            "tool_count": 15
+          },
+          {
+            "name": "github-mcp-server",
+            "service_type": "Stdio",
+            "tool_count": 8
+          },
+          {
+            "name": "database-mcp-server",
+            "service_type": "Stdio",
+            "tool_count": 6
+          }
+        ],
+        "row_count": 3,
+        "success": true
+      },
+      "duration_ms": 230
+    },
+    {
+      "tool": "describe_table",
+      "service": "database-mcp-server",
+      "timestamp": "2025-01-10T10:35:00Z",
+      "input": {
+        "database": "openmetadata",
+        "table": "mcp_service_entity"
+      },
+      "output": {
+        "columns": [
+          {
+            "name": "id",
+            "type": "VARCHAR(36)",
+            "nullable": false,
+            "key": "PRI"
+          },
+          {
+            "name": "name",
+            "type": "VARCHAR(256)",
+            "nullable": false,
+            "key": "UNI"
+          },
+          {
+            "name": "serviceType",
+            "type": "VARCHAR(256)",
+            "nullable": false
+          },
+          {
+            "name": "json",
+            "type": "JSON",
+            "nullable": false
+          },
+          {
+            "name": "updatedAt",
+            "type": "BIGINT",
+            "nullable": false
+          }
+        ],
+        "success": true
+      },
+      "duration_ms": 180
+    }
+  ],
+  "prompts": [
+    {
+      "prompt": "code_review",
+      "service": "everything-mcp-server",
+      "timestamp": "2025-01-10T10:36:00Z",
+      "input": {
+        "code": "def process_mcp_tools(tools):\n    result = []\n    for tool in tools:\n        if tool.get('enabled'):\n            result.append(tool['name'])\n    return result",
+        "language": "python",
+        "focus": "all"
+      },
+      "output": {
+        "review": "## Code Review\n\n### Issues Found:\n1. **No type hints**: Add type annotations for better code clarity\n2. **Missing error handling**: Tool might not have 'enabled' or 'name' keys\n3. **Could be more Pythonic**: Consider using list comprehension\n\n### Suggested improvements:\n```python\nfrom typing import List, Dict, Any\n\ndef process_mcp_tools(tools: List[Dict[str, Any]]) -> List[str]:\n    \"\"\"Process MCP tools and return names of enabled tools.\"\"\"\n    return [tool['name'] for tool in tools if tool.get('enabled', False) and 'name' in tool]\n```",
+        "success": true
+      }
+    },
+    {
+      "prompt": "generate_query",
+      "service": "database-mcp-server",
+      "timestamp": "2025-01-10T10:37:00Z",
+      "input": {
+        "description": "Find all MCP services that have more than 10 tools and were updated in the last 7 days",
+        "tables": ["mcp_service_entity", "mcp_tools"]
+      },
+      "output": {
+        "query": "SELECT \n    mse.name,\n    mse.serviceType,\n    COUNT(mt.id) as tool_count,\n    mse.updatedAt\nFROM mcp_service_entity mse\nJOIN mcp_tools mt ON mse.id = mt.service_id\nWHERE mse.updatedAt >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 7 DAY))\nGROUP BY mse.id, mse.name, mse.serviceType, mse.updatedAt\nHAVING COUNT(mt.id) > 10\nORDER BY tool_count DESC;",
+        "explanation": "This query joins the MCP service entity table with the tools table, filters by update timestamp within the last 7 days, groups by service, and filters for services with more than 10 tools.",
+        "success": true
+      }
+    }
+  ]
+}

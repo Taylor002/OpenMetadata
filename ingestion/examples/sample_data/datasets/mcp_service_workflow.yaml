@@ -1,0 +1,91 @@
+source:
+  type: mcp
+  serviceName: everything-mcp-server
+  serviceConnection:
+    config:
+      type: Mcp
+      connection:
+        config:
+          command: npx
+          args:
+            - "-y"
+            - "@modelcontextprotocol/server-everything"
+          env:
+            NODE_ENV: production
+  sourceConfig:
+    config:
+      type: McpMetadata
+
+sink:
+  type: metadata-rest
+  config: {}
+
+workflowConfig:
+  openMetadataServerConfig:
+    hostPort: http://localhost:8585/api
+    authProvider: openmetadata
+    securityConfig:
+      jwtToken: "eyJraWQiOiJHYjM4OWEtOWY3Ni1nZGpzLWE5MmotMDI0MmJrOTQzNTYiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.example"
+
+---
+# GitHub MCP Server Workflow
+source:
+  type: mcp
+  serviceName: github-mcp-server
+  serviceConnection:
+    config:
+      type: Mcp
+      connection:
+        config:
+          command: node
+          args:
+            - "/opt/mcp-servers/github-server.js"
+          env:
+            GITHUB_TOKEN: "${GITHUB_TOKEN}"
+  sourceConfig:
+    config:
+      type: McpMetadata
+
+sink:
+  type: metadata-rest
+  config: {}
+
+workflowConfig:
+  openMetadataServerConfig:
+    hostPort: http://localhost:8585/api
+    authProvider: openmetadata
+    securityConfig:
+      jwtToken: "eyJraWQiOiJHYjM4OWEtOWY3Ni1nZGpzLWE5MmotMDI0MmJrOTQzNTYiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.example"
+
+---
+# Database MCP Server Workflow
+source:
+  type: mcp
+  serviceName: database-mcp-server
+  serviceConnection:
+    config:
+      type: Mcp
+      connection:
+        config:
+          command: python
+          args:
+            - "-m"
+            - "mcp_servers.database"
+          env:
+            DATABASE_URL: "${DATABASE_URL}"
+            DB_READ_ONLY: "false"
+          cwd: "/opt/mcp-servers"
+  sourceConfig:
+    config:
+      type: McpMetadata
+
+sink:
+  type: metadata-rest
+  config: {}
+
+workflowConfig:
+  openMetadataServerConfig:
+    hostPort: http://localhost:8585/api
+    authProvider: openmetadata
+    securityConfig:
+      jwtToken: "eyJraWQiOiJHYjM4OWEtOWY3Ni1nZGpzLWE5MmotMDI0MmJrOTQzNTYiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.example"

@@ -134,6 +134,7 @@ from metadata.generated.schema.entity.services.mlmodelService import MlModelServ
 from metadata.generated.schema.entity.services.pipelineService import PipelineService
 from metadata.generated.schema.entity.services.searchService import SearchService
 from metadata.generated.schema.entity.services.storageService import StorageService
+from metadata.generated.schema.entity.services.mcpService import McpService
 from metadata.generated.schema.entity.teams.team import Team
 from metadata.generated.schema.entity.teams.user import User
 from metadata.generated.schema.metadataIngestion.workflow import (
@@ -779,6 +780,38 @@ class SampleDataSource(
             logger.debug(f"Traceback: {traceback.format_exc()}")
             self.has_drive_data = False
 
+        # Load MCP service sample data
+        try:
+            logger.info(f"Loading MCP service sample data from {sample_data_folder}/mcp_service/")
+            self.mcp_service_json = json.load(
+                open(  # pylint: disable=consider-using-with
+                    sample_data_folder + "/mcp_service/service.json",
+                    "r",
+                    encoding=UTF_8,
+                )
+            )
+            logger.info(f"MCP service JSON: {self.mcp_service_json}")
+            
+            self.mcp_service = self.metadata.get_service_or_create(
+                entity=McpService,
+                config=WorkflowSource(**self.mcp_service_json),
+            )
+            logger.info(f"Created MCP service: {self.mcp_service.name}")
+            
+            self.mcp_servers = json.load(
+                open(  # pylint: disable=consider-using-with
+                    sample_data_folder + "/mcp_service/mcp_servers.json",
+                    "r",
+                    encoding=UTF_8,
+                )
+            )
+            self.has_mcp_data = True
+            logger.info(f"Successfully loaded MCP data: {len(self.mcp_servers.get('services', []))} servers")
+        except Exception as exc:
+            logger.warning(f"MCP sample data not found: {exc}")
+            logger.debug(f"Traceback: {traceback.format_exc()}")
+            self.has_mcp_data = False
+
     @classmethod
     def create(
         cls, config_dict, metadata: OpenMetadata, pipeline_name: Optional[str] = None
@@ -825,6 +858,7 @@ class SampleDataSource(
         yield from self.ingest_life_cycle()
         yield from self.ingest_api_service()
         yield from self.ingest_ometa_api_service()
+        yield from self.ingest_mcp_service()
         self.modify_column_descriptions()
         yield from self.process_service_batch()
         yield from self.ingest_data_contracts()
@@ -2340,6 +2374,20 @@ class SampleDataSource(
         for endpoint in self.ometa_api_endpoint.get("endpoints"):
             endpoint_request = CreateAPIEndpointRequest(**endpoint)
             yield Either(right=endpoint_request)
+
+    def ingest_mcp_service(self) -> Iterable[Either[Entity]]:
+        """Ingest MCP services"""
+        if not self.has_mcp_data:
+            logger.info("No MCP data to ingest, skipping...")
+            return
+            
+        # MCP services are already created in __init__ via get_service_or_create
+        # Just log that the service was created
+        logger.info(f"MCP service '{self.mcp_service.name}' already created")
+        
+        # For now, we'll just yield the service entity
+        # In the future, this could yield tools, resources, and prompts as separate entities
+        # if we create separate entities for those in the schema
 
     def create_database_service(self, service_idx: int) -> None:
         """Create a database service and its databases.

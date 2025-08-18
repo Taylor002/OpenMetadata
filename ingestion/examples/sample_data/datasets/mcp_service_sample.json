@@ -1,0 +1,19 @@
+{
+  "type": "Mcp",
+  "serviceName": "sample_mcp_server",
+  "serviceConnection": {
+    "config": {
+      "type": "Mcp",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-everything"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  },
+  "sourceConfig": {
+    "config": {
+      "type": "McpMetadata"
+    }
+  }
+}
